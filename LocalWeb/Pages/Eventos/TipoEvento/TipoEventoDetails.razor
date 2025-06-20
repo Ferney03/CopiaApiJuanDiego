@@ -1,0 +1,45 @@
+﻿@page "/TipoEvento/details/{Id:guid}"
+
+@if (TipoEvento is null)
+{
+    <Loading />
+}
+else
+{
+    <h3>@TipoEvento.Nombre</h3>
+    <div class="mb-2">
+        <a class="btn btn-primary" href="/TipoEvento/create/@TipoEvento.IdTipoEvento">Nuevo</a>
+        <a class="btn btn-success" href="/Evento/details/@TipoEvento.ImpactoId">Regresar</a>
+    </div>
+
+    <h4>Lista de @TipoEvento.Nombre</h4>
+    <GenericList MyList="Impacto.tipoEventos!.ToList()">
+        <Body>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Fecha y hora</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var evento in TipoEvento.eventos!)
+                    {
+                        <tr>
+                            <td>
+                                @TipoEvento.Nombre
+                            </td>
+                            <td>
+                                @evento.FechaEvento
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(evento))>Borrar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+}

@@ -1,0 +1,70 @@
+﻿using LocalBackend.Data;
+using LocalBackend.Helpers;
+using LocalBackend.Repositories.Interfaces.Mediciones;
+using LocalShare.Responses;
+using LocalShared.DTOs;
+using LocalShared.Entities.Dispositivos;
+using LocalShared.Entities.Medicion;
+using Microsoft.EntityFrameworkCore;
+
+namespace LocalBackend.Repositories.implementation.Medicion
+{
+    public class TipoMedicionRepository : GenericRepository<ClsMTipoMedicion>, ITipoMedicionRepository
+    {
+        private readonly DataContext _context;
+
+        public TipoMedicionRepository(DataContext context) : base(context)
+        {
+            _context = context;
+        }
+
+        public override async Task<ActionResponse<ClsMTipoMedicion>> GetAsync(Guid Id)
+        {
+            var TipoMedida = await _context.TipoMedicion
+                .Include(c => c.unidadMedidas)
+                .FirstOrDefaultAsync(c => c.IdTipoMedicion == Id);
+            if (TipoMedida == null)
+            {
+                return new ActionResponse<ClsMTipoMedicion>
+                {
+                    WasSuccess = false,
+                    Message = "Tipo de medicion no encontrado"
+                };               
+            }
+            return new ActionResponse<ClsMTipoMedicion>
+            {
+                WasSuccess = true,
+                Result = TipoMedida
+            };
+        }
+
+
+        public override async Task<ActionResponse<IEnumerable<ClsMTipoMedicion>>> GetAsync()
+        {
+            var TipoMedida = await _context.TipoMedicion
+                .Include(c => c.unidadMedidas)
+                .ToListAsync();
+            return new ActionResponse<IEnumerable<ClsMTipoMedicion>>
+            {
+                WasSuccess = true,
+                Result = TipoMedida
+            };
+        }
+
+        public override async Task<ActionResponse<IEnumerable<ClsMTipoMedicion>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.TipoMedicion
+                .Include(c => c.unidadMedidas)
+                .AsQueryable();
+
+            return new ActionResponse<IEnumerable<ClsMTipoMedicion>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .OrderBy(x => x.Nombre)
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+    }
+}

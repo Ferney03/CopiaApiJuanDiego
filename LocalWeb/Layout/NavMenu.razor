@@ -1,0 +1,65 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+         <img src="/logo-lestoma-sm.svg" alt="Logo LESTOMA"/>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Inicio
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/Auditoria">
+                <span class="bi bi-smartwatch-fill-nav-menu" aria-hidden="true"></span> Auditoria
+            </NavLink>
+        </div>        
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/TipoMedicion">
+                <span class="bi bi-rulers-fill-nav-menu" aria-hidden="true"></span> Mediciones
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/UnidadMedida">
+                <span class="bi bi-water-nav-menu" aria-hidden="true"></span> Unidad de Medida
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/TipoDispositivo">
+                <span class="bi bi-water-nav-menu" aria-hidden="true"></span> Dispositivo
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/EstadosDispositivo">
+                <span class="bi bi-water-nav-menu" aria-hidden="true"></span> Estado dispositivos
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/Evento">
+                <span class="bi bi-water-nav-menu" aria-hidden="true"></span> Eventos 
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/TipoElemento">
+                <span class="bi bi-water-nav-menu" aria-hidden="true"></span> Elementos
+            </NavLink>
+        </div>
+
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

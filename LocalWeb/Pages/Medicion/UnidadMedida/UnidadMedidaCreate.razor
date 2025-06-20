@@ -1,0 +1,12 @@
+﻿@page "/UnidadMedida/create/{TipoMedidaId:guid}"
+
+<h3>Registrar Tipo de Medicion </h3>
+
+@if(unidadMedida is null)
+{
+    <Loading/>
+}
+else
+{    
+    <FormWithName @ref="UnidadMedidaForm" Label="Tipo de Medicion" Model="unidadMedida" OnValidSudmit="CreateAsync" ReturnAction="Return" />
+}
