@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LocalShared.Entities.Administracion;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalShared.Entities.Sistemas
 {
     public class ClsMAsignacionSistema
     {
         [Key]
-        [Display (Name ="Identificador de asignacion")]
+        [Display(Name = "Identificador de asignacion")]
         public Guid IdAsignacionSistema { get; set; }
-        
+
         //pendiente relacion
         public Guid? IdUpa { get; set; }
+        public ClsMUpa? Upa { get; set; }
+
         public Guid? SistemaId { get; set; }
         public ClsMSistema? Sistema { get; set; }
 

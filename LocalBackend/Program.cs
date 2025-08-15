@@ -1,4 +1,4 @@
-using LocalBackend.Data;
+﻿using LocalBackend.Data;
 using LocalBackend.Repositories.implementation;
 using LocalBackend.Repositories.implementation.Administracion;
 using LocalBackend.Repositories.implementation.Dispositivo;
@@ -93,15 +93,15 @@ builder.Services.AddScoped<IAsignacionActividadUnitOfWork, AsignacionActividadUn
 builder.Services.AddScoped<IListaActividadesRepository, ListaActividadesRepository>();
 builder.Services.AddScoped<IListaActividadesUnitOfWork, ListaActividadesUnitOfWork>();
 
+// ✅ CORS actualizado para permitir desde cualquier origen (desarrollo)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        builder => builder.WithOrigins("http://localhost:57871", "https://localhost:7223")
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials());
+        builder => builder
+            .AllowAnyOrigin()  // ✅ Permitir cualquier origen para desarrollo
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
-
 
 var app = builder.Build();
 SeedData(app);
@@ -122,9 +122,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// ❌ COMENTAR ESTA LÍNEA para permitir HTTP
+// app.UseHttpsRedirection();
 
-
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
@@ -132,4 +132,6 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
+
+// ✅ Configurar para escuchar en todas las interfaces de red
+app.Run("http://0.0.0.0:7150");
